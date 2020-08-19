@@ -1,4 +1,4 @@
-package com.datafrey.movies.omdb
+package com.datafrey.movies.data
 
 import com.google.gson.annotations.SerializedName
 

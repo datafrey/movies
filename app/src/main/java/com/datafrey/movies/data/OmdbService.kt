@@ -1,4 +1,4 @@
-package com.datafrey.movies.omdb
+package com.datafrey.movies.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,4 +14,5 @@ object OmdbService {
     private val api = retrofit.create(OmdbApi::class.java)
 
     fun getApi() = api
+
 }

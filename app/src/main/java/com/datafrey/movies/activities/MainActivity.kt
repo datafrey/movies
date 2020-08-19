@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.datafrey.movies.R
 import com.datafrey.movies.adapters.FoundMoviesViewAdapter
 import com.datafrey.movies.data
-import com.datafrey.movies.omdb.OmdbService
-import com.datafrey.movies.omdb.ShortMovieInfo
-import com.datafrey.movies.omdb.ShortMovieInfoSearch
+import com.datafrey.movies.data.OmdbService
+import com.datafrey.movies.data.ShortMovieInfo
+import com.datafrey.movies.data.ShortMovieInfoSearch
 import com.datafrey.movies.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with (foundMoviesRecyclerView) {
+        foundMoviesRecyclerView.run {
             adapter = foundMoviesAdapter
             layoutManager = LinearLayoutManager(baseContext)
         }
@@ -34,14 +34,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     fun searchButtonClick(view: View) {
         foundMoviesRecyclerView.smoothScrollToPosition(0)
 
-        if (queryEditText.data.isNotEmpty())
+        if (queryEditText.data.isNotEmpty()) {
             OmdbService.getApi()
                 .getMoviesByQueue(queryEditText.data)
-                .enqueue(object: Callback<ShortMovieInfoSearch> {
+                .enqueue(object : Callback<ShortMovieInfoSearch> {
                     override fun onFailure(call: Call<ShortMovieInfoSearch>, t: Throwable) =
                         toast("Loading failed: ${t.message}")
 
-                    override fun onResponse(call: Call<ShortMovieInfoSearch>, response: Response<ShortMovieInfoSearch>) {
+                    override fun onResponse(
+                        call: Call<ShortMovieInfoSearch>,
+                        response: Response<ShortMovieInfoSearch>
+                    ) {
                         foundMoviesList.clear()
                         try {
                             foundMoviesList.addAll(response.body()!!.searchResults)
@@ -51,7 +54,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         foundMoviesAdapter.notifyDataSetChanged()
                     }
                 })
-        else
-            toast("Please input the keyword(s).")
+        } else {
+            toast("Please input a keyword/keyphrase.")
+        }
     }
+
 }

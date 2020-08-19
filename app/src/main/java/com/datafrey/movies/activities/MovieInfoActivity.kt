@@ -1,19 +1,19 @@
 package com.datafrey.movies.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import com.datafrey.movies.R
-import com.datafrey.movies.loadPoster
-import com.datafrey.movies.omdb.AllMovieInfo
-import com.datafrey.movies.omdb.OmdbService
+import com.datafrey.movies.data.AllMovieInfo
+import com.datafrey.movies.data.OmdbService
+import com.datafrey.movies.databinding.ActivityMovieInfoBinding
 import com.datafrey.movies.toast
-import kotlinx.android.synthetic.main.activity_movie_info.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gettingMovieInfo()
@@ -21,7 +21,6 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
 
     private fun gettingMovieInfo() {
         val imdbID = intent.getStringExtra("imdbID")
-
         OmdbService.getApi()
             .getMovieByImdbID(imdbID!!)
             .enqueue(object : Callback<AllMovieInfo> {
@@ -41,32 +40,18 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
             })
     }
 
-    @SuppressLint("SetTextI18n")
     private fun fillingActivityFieldsWithMovieInfo(allMovieInfo: AllMovieInfo?) {
-        if (allMovieInfo != null) {
-            with (allMovieInfo) {
-                with (supportActionBar!!) {
-                    title = "$Title ($Year)"
-                    subtitle = "IMDB id: $imdbID"
-                    setDisplayHomeAsUpEnabled(true)
-                }
+        val binding: ActivityMovieInfoBinding =
+            setContentView(this, R.layout.activity_movie_info)
+        binding.allMovieInfo = allMovieInfo
 
-                loadPoster(Poster, posterImageView)
-                titleTextView.text = "Title: $Title"
-                yearTextView.text = "Year: $Year"
-                ratedTextView.text = "Rated: $Rated"
-                releasedTextView.text = "Released: $Released"
-                runtimeTextView.text = "Runtime: $Runtime"
-                genreTextView.text = "Genre: $Genre"
-                directorTextView.text = "Director: $Director"
-                writerTextView.text = "Writer: $Writer"
-                actorsTextView.text = "Actors: $Actors"
-                plotTextView.text = "Plot: $Plot"
-                languageTextView.text = "Language: $Language"
-                countryTextView.text = "Country: $Country"
-                awardsTextView.text = "Awards: $Awards"
+        allMovieInfo!!.run {
+            supportActionBar!!.run {
+                title = "$Title ($Year)"
+                subtitle = "IMDB id: $imdbID"
+                setDisplayHomeAsUpEnabled(true)
             }
-        } else
-            toast("Loading failed.")
+        }
     }
+
 }

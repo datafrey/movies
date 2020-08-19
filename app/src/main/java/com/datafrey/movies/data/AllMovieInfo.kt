@@ -1,4 +1,4 @@
-package com.datafrey.movies.omdb
+package com.datafrey.movies.data
 
 data class AllMovieInfo(
     val Actors: String,

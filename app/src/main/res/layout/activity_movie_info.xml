@@ -1,148 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.MovieInfoActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
 
-        <RelativeLayout
+        <variable
+            name="allMovieInfo"
+            type="com.datafrey.movies.data.AllMovieInfo" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/posterImageView"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                android:padding="4dp"
-                android:layout_alignParentLeft="true"/>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_toRightOf="@+id/posterImageView">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/titleTextView"
+                <ImageView
+                    android:id="@+id/posterImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    android:padding="4dp"
+                    android:layout_alignParentLeft="true"
+                    app:url="@{allMovieInfo.Poster}"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_toRightOf="@+id/posterImageView">
+
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Title: ` + allMovieInfo.Title}"/>
+
+                    <TextView
+                        android:id="@+id/yearTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Year: ` + allMovieInfo.Year}"/>
+
+                    <TextView
+                        android:id="@+id/ratedTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Rated: ` + allMovieInfo.Rated}"/>
+
+                    <TextView
+                        android:id="@+id/releasedTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Released: ` + allMovieInfo.Released}"/>
+
+                    <TextView
+                        android:id="@+id/runtimeTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Runtime: ` + allMovieInfo.Runtime}"/>
+
+                    <TextView
+                        android:id="@+id/genreTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Genre: ` + allMovieInfo.Genre}"/>
+
+                    <TextView
+                        android:id="@+id/directorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Director: ` + allMovieInfo.Director}"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    android:orientation="vertical"
+                    android:layout_below="@+id/posterImageView">
 
-                <TextView
-                    android:id="@+id/yearTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/writerTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Writer: ` + allMovieInfo.Writer}"/>
 
-                <TextView
-                    android:id="@+id/ratedTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/actorsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Actors: ` + allMovieInfo.Actors}"/>
 
-                <TextView
-                    android:id="@+id/releasedTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/plotTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Plot: ` + allMovieInfo.Plot}"/>
 
-                <TextView
-                    android:id="@+id/runtimeTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/languageTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Language: ` + allMovieInfo.Language}"/>
 
-                <TextView
-                    android:id="@+id/genreTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/countryTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Country: ` + allMovieInfo.Country}"/>
 
-                <TextView
-                    android:id="@+id/directorTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:id="@+id/awardsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:text="@{`Awards: ` + allMovieInfo.Awards}"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/posterImageView">
+            </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/writerTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+        </ScrollView>
 
-                <TextView
-                    android:id="@+id/actorsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/plotTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/languageTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/countryTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/awardsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
+</layout>
