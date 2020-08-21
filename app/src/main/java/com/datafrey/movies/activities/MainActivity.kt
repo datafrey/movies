@@ -1,62 +1,69 @@
 package com.datafrey.movies.activities
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
-import com.datafrey.movies.adapters.FoundMoviesViewAdapter
 import com.datafrey.movies.data
-import com.datafrey.movies.data.OmdbService
-import com.datafrey.movies.data.ShortMovieInfo
-import com.datafrey.movies.data.ShortMovieInfoSearch
 import com.datafrey.movies.toast
+import com.datafrey.movies.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.layout_search.view.*
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private var foundMoviesList = mutableListOf<ShortMovieInfo>()
-    private val foundMoviesAdapter =
-        FoundMoviesViewAdapter(foundMoviesList)
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel = ViewModelProviders.of(this)
+            .get(MainViewModel::class.java)
+
+        viewModel.getOccurredException()
+            .observe(this, Observer {
+                if (it != null) {
+                    toast(it.message!!)
+                    viewModel.getOccurredException().value = null
+                }
+            })
+
+        viewModel.getFoundMoviesListSize()
+            .observe(this, Observer {
+                foundMoviesListHintTextView.visibility =
+                    if (it == 0) View.VISIBLE else View.GONE
+            })
+
         foundMoviesRecyclerView.run {
-            adapter = foundMoviesAdapter
-            layoutManager = LinearLayoutManager(baseContext)
+            adapter = viewModel.getFoundMoviesAdapter()
+            layoutManager = GridLayoutManager(
+                baseContext,
+                resources.getInteger(R.integer.column_count)
+            )
         }
     }
 
     fun searchButtonClick(view: View) {
-        foundMoviesRecyclerView.smoothScrollToPosition(0)
+        val searchView = LayoutInflater.from(this)
+            .inflate(R.layout.layout_search, null)
 
-        if (queryEditText.data.isNotEmpty()) {
-            OmdbService.getApi()
-                .getMoviesByQueue(queryEditText.data)
-                .enqueue(object : Callback<ShortMovieInfoSearch> {
-                    override fun onFailure(call: Call<ShortMovieInfoSearch>, t: Throwable) =
-                        toast("Loading failed: ${t.message}")
-
-                    override fun onResponse(
-                        call: Call<ShortMovieInfoSearch>,
-                        response: Response<ShortMovieInfoSearch>
-                    ) {
-                        foundMoviesList.clear()
-                        try {
-                            foundMoviesList.addAll(response.body()!!.searchResults)
-                        } catch (npe: NullPointerException) {
-                            toast("Nothing have been found.")
-                        }
-                        foundMoviesAdapter.notifyDataSetChanged()
-                    }
-                })
-        } else {
-            toast("Please input a keyword/keyphrase.")
-        }
+        AlertDialog.Builder(this)
+            .setView(searchView)
+            .setPositiveButton("Search") { dialog, _ ->
+                foundMoviesRecyclerView.smoothScrollToPosition(0)
+                viewModel.searchMovies(searchView.queryEditText.data)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 }

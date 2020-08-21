@@ -1,50 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/searchLinearLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/foundMoviesRecyclerView"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/searchFloatingActionButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:weightSum="4"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:onClick="searchButtonClick"
+        android:src="@drawable/ic_white_search_24"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
 
-        <EditText
-            android:id="@+id/queryEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Keyword(s)"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/searchButton"
-            android:onClick="searchButtonClick"
-            android:text="Search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/foundMoviesListHintTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/searchLinearLayout">
+        android:text="Tap 'Search' button to search movies~"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/foundMoviesRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="64dp"/>
-
-    </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
