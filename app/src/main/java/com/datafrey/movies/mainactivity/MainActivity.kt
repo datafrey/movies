@@ -1,4 +1,4 @@
-package com.datafrey.movies.activities
+package com.datafrey.movies.mainactivity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,11 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
 import com.datafrey.movies.data
 import com.datafrey.movies.toast
-import com.datafrey.movies.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_search.view.*
 
@@ -22,21 +21,23 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this)
+        val viewModelFactory = MainViewModelFactory()
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainViewModel::class.java)
 
-        viewModel.getOccurredException()
+        viewModel.occurredException
             .observe(this, Observer {
                 if (it != null) {
                     toast(it.message!!)
-                    viewModel.getOccurredException().value = null
+                    viewModel.doneShowingExceptionMessage()
                 }
             })
 
-        viewModel.getFoundMoviesListSize()
+        viewModel.foundMoviesListIsEmpty
             .observe(this, Observer {
                 foundMoviesListHintTextView.visibility =
-                    if (it == 0) View.VISIBLE else View.GONE
+                    if (it) View.VISIBLE else View.GONE
             })
 
         foundMoviesRecyclerView.run {

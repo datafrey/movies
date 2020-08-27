@@ -1,6 +1,7 @@
-package com.datafrey.movies.viewmodels
+package com.datafrey.movies.mainactivity
 
 import android.accounts.NetworkErrorException
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.datafrey.movies.adapters.FoundMoviesViewAdapter
@@ -14,18 +15,23 @@ import retrofit2.Response
 class MainViewModel : ViewModel() {
 
     private val foundMoviesList = mutableListOf<ShortMovieInfo>()
-    private val foundMoviesListSize =
-        MutableLiveData<Int>(foundMoviesList.size)
     private val foundMoviesAdapter =
         FoundMoviesViewAdapter(foundMoviesList)
 
-    private val occurredException = MutableLiveData<Exception?>()
-
-    fun getFoundMoviesListSize() = foundMoviesListSize
-
     fun getFoundMoviesAdapter() = foundMoviesAdapter
 
-    fun getOccurredException() = occurredException
+    private val _foundMoviesListIsEmpty =
+        MutableLiveData<Boolean>(foundMoviesList.isEmpty())
+    val foundMoviesListIsEmpty: LiveData<Boolean>
+        get() = _foundMoviesListIsEmpty
+
+    private val _occurredException = MutableLiveData<Exception?>()
+    val occurredException: LiveData<Exception?>
+        get() = _occurredException
+
+    fun doneShowingExceptionMessage() {
+        _occurredException.value = null
+    }
 
     fun searchMovies(query: String) {
         if (query.isNotEmpty()) {
@@ -33,7 +39,7 @@ class MainViewModel : ViewModel() {
                 .getMoviesByQueue(query)
                 .enqueue(object : Callback<ShortMovieInfoSearch> {
                     override fun onFailure(call: Call<ShortMovieInfoSearch>, t: Throwable) {
-                        occurredException.value = NetworkErrorException("Loading failed, " +
+                        _occurredException.value = NetworkErrorException("Loading failed, " +
                                 "please check your network connection.")
                     }
 
@@ -45,17 +51,17 @@ class MainViewModel : ViewModel() {
                         val searchResults = response.body()?.searchResults
                         if (searchResults == null) {
                             foundMoviesAdapter.notifyDataSetChanged()
-                            occurredException.value =
+                            _occurredException.value =
                                 NullPointerException("Nothing have been found.")
                         } else {
                             foundMoviesList.addAll(searchResults)
                             foundMoviesAdapter.notifyDataSetChanged()
                         }
-                        foundMoviesListSize.value = foundMoviesList.size
+                        _foundMoviesListIsEmpty.value = foundMoviesList.isEmpty()
                     }
                 })
         } else {
-            occurredException.value =
+            _occurredException.value =
                 IllegalArgumentException("Please input a keyword/keyphrase.")
         }
     }

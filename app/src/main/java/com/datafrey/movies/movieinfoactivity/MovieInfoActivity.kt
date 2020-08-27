@@ -1,15 +1,14 @@
-package com.datafrey.movies.activities
+package com.datafrey.movies.movieinfoactivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.datafrey.movies.R
 import com.datafrey.movies.data.AllMovieInfo
 import com.datafrey.movies.databinding.ActivityMovieInfoBinding
 import com.datafrey.movies.toast
-import com.datafrey.movies.viewmodels.MovieInfoViewModel
 
 class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
 
@@ -19,17 +18,24 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
         super.onCreate(savedInstanceState)
         supportActionBar!!.title = "Loading info..."
 
-        viewModel = ViewModelProviders.of(this)
+        val imdbID = intent.getStringExtra("imdbID")
+        val viewModelFactory = MovieInfoViewModelFactory(imdbID!!)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MovieInfoViewModel::class.java)
 
-        viewModel.getOccurredException()
-            .observe(this, Observer { toast(it.message!!) })
+        viewModel.occurredException
+            .observe(this, Observer {
+                if (it != null) {
+                    toast(it.message!!)
+                    viewModel.doneShowingExceptionMessage()
+                }
+            })
 
-        viewModel.getReceivedMovieInfo()
-            .observe(this, Observer { fillActivityFieldsWithMovieInfo(it) })
-
-        val imdbID = intent.getStringExtra("imdbID")
-        viewModel.getMovieInfo(imdbID!!)
+        viewModel.receivedMovieInfo
+            .observe(this, Observer {
+                fillActivityFieldsWithMovieInfo(it)
+            })
     }
 
     private fun fillActivityFieldsWithMovieInfo(allMovieInfo: AllMovieInfo?) {

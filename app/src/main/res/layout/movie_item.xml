@@ -23,7 +23,6 @@
 
             <ImageView
                 android:id="@+id/posterImageView"
-                android:src="@mipmap/ic_launcher"
                 android:layout_width="100dp"
                 android:layout_height="150dp"
                 app:url="@{shortMoviewInfo.Poster}"

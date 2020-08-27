@@ -1,6 +1,7 @@
-package com.datafrey.movies.viewmodels
+package com.datafrey.movies.movieinfoactivity
 
 import android.accounts.NetworkErrorException
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.datafrey.movies.data.AllMovieInfo
@@ -9,21 +10,32 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieInfoViewModel : ViewModel() {
+class MovieInfoViewModel(
+    private val imdbID: String
+) : ViewModel() {
 
-    private val receivedMovieInfo = MutableLiveData<AllMovieInfo>()
-    private val occurredException = MutableLiveData<Exception>()
+    private val _receivedMovieInfo = MutableLiveData<AllMovieInfo>()
+    val receivedMovieInfo: LiveData<AllMovieInfo>
+        get() = _receivedMovieInfo
 
-    fun getReceivedMovieInfo() = receivedMovieInfo
+    private val _occurredException = MutableLiveData<Exception?>()
+    val occurredException: LiveData<Exception?>
+        get() = _occurredException
 
-    fun getOccurredException() = occurredException
+    init {
+        getMovieInfo()
+    }
 
-    fun getMovieInfo(imdbID: String) {
+    fun doneShowingExceptionMessage() {
+        _occurredException.value = null
+    }
+
+    fun getMovieInfo() {
         OmdbService.getApi()
             .getMovieByImdbID(imdbID)
             .enqueue(object : Callback<AllMovieInfo> {
                 override fun onFailure(call: Call<AllMovieInfo>, t: Throwable) {
-                    occurredException.value = NetworkErrorException("Loading failed, " +
+                    _occurredException.value = NetworkErrorException("Loading failed, " +
                             "please check your network connection.")
                 }
 
@@ -32,9 +44,9 @@ class MovieInfoViewModel : ViewModel() {
                     response: Response<AllMovieInfo>
                 ) {
                     try {
-                        receivedMovieInfo.value = response.body()
+                        _receivedMovieInfo.value = response.body()
                     } catch (npe: NullPointerException) {
-                        occurredException.value = NullPointerException("Loading failed.")
+                        _occurredException.value = NullPointerException("Loading failed.")
                     }
                 }
             })

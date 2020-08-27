@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.datafrey.movies.R
-import com.datafrey.movies.activities.MovieInfoActivity
+import com.datafrey.movies.movieinfoactivity.MovieInfoActivity
 import com.datafrey.movies.data.ShortMovieInfo
 import com.datafrey.movies.databinding.MovieItemBinding
 import com.datafrey.movies.startActivity
