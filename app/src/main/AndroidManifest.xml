@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.datafrey.movies.movieinfoactivity.MovieInfoActivity">
+        <activity android:name="com.datafrey.movies.movieinfo.MovieInfoActivity">
 
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datafrey.movies.mainactivity.MainActivity"/>
+                android:value="com.datafrey.movies.main.MainActivity"/>
 
         </activity>
-        <activity android:name="com.datafrey.movies.mainactivity.MainActivity"
+        <activity android:name="com.datafrey.movies.main.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,8 +5,12 @@
     <data>
 
         <variable
-            name="shortMoviewInfo"
+            name="shortMovieInfo"
             type="com.datafrey.movies.data.ShortMovieInfo" />
+
+        <variable
+            name="movieItemEventListener"
+            type="com.datafrey.movies.main.MovieItemEventListener" />
 
     </data>
 
@@ -14,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        android:onClick="@{() -> movieItemEventListener.onClick(shortMovieInfo)}">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,7 +30,7 @@
                 android:id="@+id/posterImageView"
                 android:layout_width="100dp"
                 android:layout_height="150dp"
-                app:url="@{shortMoviewInfo.Poster}"
+                app:url="@{shortMovieInfo.Poster}"
                 android:layout_alignParentStart="true"/>
 
             <LinearLayout
@@ -38,7 +43,7 @@
 
                 <TextView
                     android:id="@+id/titleTextView"
-                    android:text="@{shortMoviewInfo.Title}"
+                    android:text="@{shortMovieInfo.Title}"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
@@ -46,7 +51,7 @@
 
                 <TextView
                     android:id="@+id/yearTextView"
-                    android:text="@{shortMoviewInfo.Year}"
+                    android:text="@{shortMovieInfo.Year}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

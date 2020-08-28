@@ -1,6 +1,7 @@
-package com.datafrey.movies.movieinfoactivity
+package com.datafrey.movies.movieinfo
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
@@ -9,6 +10,7 @@ import com.datafrey.movies.R
 import com.datafrey.movies.data.AllMovieInfo
 import com.datafrey.movies.databinding.ActivityMovieInfoBinding
 import com.datafrey.movies.toast
+import kotlinx.android.synthetic.main.activity_movie_info.*
 
 class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
 
@@ -35,6 +37,7 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
         viewModel.receivedMovieInfo
             .observe(this, Observer {
                 fillActivityFieldsWithMovieInfo(it)
+                progressBar.visibility = View.GONE
             })
     }
 

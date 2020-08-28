@@ -1,4 +1,4 @@
-package com.datafrey.movies.movieinfoactivity
+package com.datafrey.movies.movieinfo
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData

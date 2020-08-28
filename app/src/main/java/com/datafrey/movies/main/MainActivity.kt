@@ -1,4 +1,4 @@
-package com.datafrey.movies.mainactivity
+package com.datafrey.movies.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
 import com.datafrey.movies.data
+import com.datafrey.movies.data.ShortMovieInfo
+import com.datafrey.movies.movieinfo.MovieInfoActivity
+import com.datafrey.movies.startActivity
 import com.datafrey.movies.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_search.view.*
@@ -40,8 +43,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     if (it) View.VISIBLE else View.GONE
             })
 
+        val foundMoviesAdapter = viewModel.getFoundMoviesAdapter()
+        foundMoviesAdapter.setMovieItemEventListener(object : MovieItemEventListener {
+            override fun onClick(clickedItemMovieInfo: ShortMovieInfo) {
+                startActivity<MovieInfoActivity> {
+                    putExtra("imdbID", clickedItemMovieInfo.imdbID)
+                }
+            }
+        })
+
         foundMoviesRecyclerView.run {
-            adapter = viewModel.getFoundMoviesAdapter()
+            adapter = foundMoviesAdapter
             layoutManager = GridLayoutManager(
                 baseContext,
                 resources.getInteger(R.integer.column_count)
