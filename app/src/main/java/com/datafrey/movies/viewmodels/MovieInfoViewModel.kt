@@ -1,4 +1,4 @@
-package com.datafrey.movies.movieinfo
+package com.datafrey.movies.viewmodels
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
@@ -51,5 +51,4 @@ class MovieInfoViewModel(
                 }
             })
     }
-
 }

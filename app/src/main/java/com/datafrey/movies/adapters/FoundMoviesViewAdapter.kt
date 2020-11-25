@@ -1,4 +1,4 @@
-package com.datafrey.movies.main
+package com.datafrey.movies.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +33,6 @@ class FoundMoviesViewAdapter(
     class FoundMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = MovieItemBinding.bind(itemView)
     }
-
 }
 
 interface MovieItemEventListener {

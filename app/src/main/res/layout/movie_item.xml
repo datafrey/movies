@@ -10,7 +10,7 @@
 
         <variable
             name="movieItemEventListener"
-            type="com.datafrey.movies.main.MovieItemEventListener" />
+            type="com.datafrey.movies.adapters.MovieItemEventListener" />
 
     </data>
 

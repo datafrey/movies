@@ -1,9 +1,10 @@
-package com.datafrey.movies.main
+package com.datafrey.movies.viewmodels
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.datafrey.movies.adapters.FoundMoviesViewAdapter
 import com.datafrey.movies.data.OmdbService
 import com.datafrey.movies.data.ShortMovieInfo
 import com.datafrey.movies.data.ShortMovieInfoSearch
@@ -64,5 +65,4 @@ class MainViewModel : ViewModel() {
                 IllegalArgumentException("Please input a keyword/keyphrase.")
         }
     }
-
 }

@@ -14,5 +14,4 @@ object OmdbService {
     private val api = retrofit.create(OmdbApi::class.java)
 
     fun getApi() = api
-
 }

@@ -1,4 +1,4 @@
-package com.datafrey.movies.main
+package com.datafrey.movies.activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
-import com.datafrey.movies.data
+import com.datafrey.movies.adapters.MovieItemEventListener
 import com.datafrey.movies.data.ShortMovieInfo
-import com.datafrey.movies.movieinfo.MovieInfoActivity
-import com.datafrey.movies.startActivity
-import com.datafrey.movies.toast
+import com.datafrey.movies.util.data
+import com.datafrey.movies.util.startActivity
+import com.datafrey.movies.util.toast
+import com.datafrey.movies.viewmodelfactories.MainViewModelFactory
+import com.datafrey.movies.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_search.view.*
 
@@ -78,5 +80,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             .create()
             .show()
     }
-
 }

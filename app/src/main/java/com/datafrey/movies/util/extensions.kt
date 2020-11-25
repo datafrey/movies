@@ -1,4 +1,4 @@
-package com.datafrey.movies
+package com.datafrey.movies.util
 
 import android.app.Activity
 import android.content.Context
@@ -26,5 +26,5 @@ inline fun <reified A:Activity> Fragment.startActivity(intent: Intent.() -> Unit
     startActivity(Intent(requireContext(), A::class.java).apply(intent))
 }
 
-fun loadPoster(url: String, to: ImageView) =
-    Picasso.get().load(url).fit().centerInside().into(to)
+fun ImageView.loadImageFromUrl(url: String?) =
+    Picasso.get().load(url).fit().centerInside().into(this)

@@ -1,4 +1,4 @@
-package com.datafrey.movies.movieinfo
+package com.datafrey.movies.activities
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.datafrey.movies.R
 import com.datafrey.movies.data.AllMovieInfo
 import com.datafrey.movies.databinding.ActivityMovieInfoBinding
-import com.datafrey.movies.toast
+import com.datafrey.movies.util.toast
+import com.datafrey.movies.viewmodelfactories.MovieInfoViewModelFactory
+import com.datafrey.movies.viewmodels.MovieInfoViewModel
 import kotlinx.android.synthetic.main.activity_movie_info.*
 
 class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
@@ -54,5 +56,4 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
             }
         }
     }
-
 }
