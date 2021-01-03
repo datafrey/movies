@@ -8,6 +8,7 @@ import com.datafrey.movies.data.AllMovieInfo
 import com.datafrey.movies.data.OmdbApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class MovieInfoViewModel(
     private val imdbID: String
@@ -21,20 +22,22 @@ class MovieInfoViewModel(
     val occurredException: LiveData<Exception?>
         get() = _occurredException
 
-    init {
-        getMovieInfo()
+    fun uiReactedToOccuredException() {
+        _occurredException.value = null
     }
 
-    fun doneShowingExceptionMessage() {
-        _occurredException.value = null
+    init {
+        getMovieInfo()
     }
 
     fun getMovieInfo() {
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 _receivedMovieInfo.postValue(OmdbApi.retrofitService.getMovieByImdbID(imdbID))
-            } catch (npe: NullPointerException) {
-                _occurredException.postValue(NullPointerException("Loading failed."))
+            } catch (uhe: UnknownHostException) {
+                _occurredException.postValue(UnknownHostException("Connection error."))
+            } catch (e: Exception) {
+                _occurredException.postValue(Exception("An error occured."))
             }
         }
     }

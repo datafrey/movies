@@ -3,8 +3,10 @@ package com.datafrey.movies.viewmodels
 import androidx.lifecycle.*
 import com.datafrey.movies.data.OmdbApi
 import com.datafrey.movies.data.ShortMovieInfo
+import com.squareup.moshi.JsonDataException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class MainViewModel : ViewModel() {
 
@@ -19,22 +21,26 @@ class MainViewModel : ViewModel() {
     val occurredException: LiveData<Exception?>
         get() = _occurredException
 
-    fun doneShowingExceptionMessage() {
+    fun uiReactedToOccuredException() {
         _occurredException.value = null
+    }
+
+    fun cleanFoundMoviesList() {
+        _foundMoviesList.value = listOf()
     }
 
     fun searchMovies(query: String) {
         if (query.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.Default) {
                 try {
-                    val searchResults = OmdbApi.retrofitService
-                        .getMoviesByQueue(query)
-                        .searchResults!!
-
-                    _foundMoviesList.postValue(searchResults)
+                    _foundMoviesList.postValue(
+                        OmdbApi.retrofitService.getMoviesByQueue(query).searchResults!!)
+                } catch (uhe: UnknownHostException) {
+                    _occurredException.postValue(UnknownHostException("Connection error."))
+                } catch (jde: JsonDataException) {
+                    _occurredException.postValue(JsonDataException("Nothing have been found."))
                 } catch (e: Exception) {
-                    _foundMoviesList.postValue(listOf())
-                    _occurredException.postValue(NullPointerException("Nothing have been found."))
+                    _occurredException.postValue(Exception("An error occured."))
                 }
             }
         } else {

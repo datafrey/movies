@@ -30,7 +30,9 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
         viewModel.occurredException.observe(this, Observer {
             it?.let {
                 toast(it.message!!)
-                viewModel.doneShowingExceptionMessage()
+                progressBar.visibility = View.GONE
+                supportActionBar!!.title = it.message
+                viewModel.uiReactedToOccuredException()
             }
         })
 

@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         viewModel.occurredException.observe(this, Observer {
             it?.let {
                 toast(it.message!!)
-                viewModel.doneShowingExceptionMessage()
+                viewModel.cleanFoundMoviesList()
+                viewModel.uiReactedToOccuredException()
             }
         })
 
