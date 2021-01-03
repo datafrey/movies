@@ -1,10 +1,9 @@
 package com.datafrey.movies.data
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class ShortMovieInfoSearch(
     val Response: String,
-    @SerializedName("Search")
-    val searchResults: ArrayList<ShortMovieInfo>?,
+    @Json(name = "Search") val searchResults: List<ShortMovieInfo>?,
     val totalResults: String
 )

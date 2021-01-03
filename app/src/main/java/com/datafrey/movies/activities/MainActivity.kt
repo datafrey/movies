@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
+import com.datafrey.movies.adapters.FoundMoviesViewAdapter
 import com.datafrey.movies.adapters.MovieItemEventListener
 import com.datafrey.movies.data.ShortMovieInfo
 import com.datafrey.movies.util.data
@@ -26,41 +27,39 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModelFactory = MainViewModelFactory()
-
-        viewModel = ViewModelProvider(this, viewModelFactory)
+        viewModel = ViewModelProvider(this, MainViewModelFactory())
             .get(MainViewModel::class.java)
 
-        viewModel.occurredException
-            .observe(this, Observer {
-                if (it != null) {
-                    toast(it.message!!)
-                    viewModel.doneShowingExceptionMessage()
-                }
-            })
-
-        viewModel.foundMoviesListIsEmpty
-            .observe(this, Observer {
-                foundMoviesListHintTextView.visibility =
-                    if (it) View.VISIBLE else View.GONE
-            })
-
-        val foundMoviesAdapter = viewModel.getFoundMoviesAdapter()
-        foundMoviesAdapter.setMovieItemEventListener(object : MovieItemEventListener {
-            override fun onClick(clickedItemMovieInfo: ShortMovieInfo) {
-                startActivity<MovieInfoActivity> {
-                    putExtra("imdbID", clickedItemMovieInfo.imdbID)
-                }
+        viewModel.occurredException.observe(this, Observer {
+            it?.let {
+                toast(it.message!!)
+                viewModel.doneShowingExceptionMessage()
             }
         })
 
-        foundMoviesRecyclerView.run {
-            adapter = foundMoviesAdapter
-            layoutManager = GridLayoutManager(
-                baseContext,
-                resources.getInteger(R.integer.column_count)
-            )
-        }
+        viewModel.foundMoviesListIsEmpty.observe(this, Observer {
+            foundMoviesListHintTextView.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        viewModel.foundMoviesList.observe(this, Observer {
+            it?.let {
+                val moviesAdapter = FoundMoviesViewAdapter(it)
+                moviesAdapter.setMovieItemEventListener(object : MovieItemEventListener {
+                    override fun onClick(clickedItemMovieInfo: ShortMovieInfo) {
+                        startActivity<MovieInfoActivity> {
+                            putExtra("imdbID", clickedItemMovieInfo.imdbID)
+                        }
+                    }
+                })
+                foundMoviesRecyclerView.adapter = moviesAdapter
+                moviesAdapter.notifyDataSetChanged()
+            }
+        })
+
+        foundMoviesRecyclerView.layoutManager = GridLayoutManager(
+            baseContext,
+            resources.getInteger(R.integer.column_count)
+        )
     }
 
     fun searchButtonClick(view: View) {

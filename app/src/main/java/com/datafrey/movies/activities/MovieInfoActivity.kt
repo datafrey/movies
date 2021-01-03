@@ -23,24 +23,21 @@ class MovieInfoActivity : AppCompatActivity(R.layout.activity_movie_info) {
         supportActionBar!!.title = "Loading info..."
 
         val imdbID = intent.getStringExtra("imdbID")
-        val viewModelFactory = MovieInfoViewModelFactory(imdbID!!)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)
+        viewModel = ViewModelProvider(this, MovieInfoViewModelFactory(imdbID!!))
             .get(MovieInfoViewModel::class.java)
 
-        viewModel.occurredException
-            .observe(this, Observer {
-                if (it != null) {
-                    toast(it.message!!)
-                    viewModel.doneShowingExceptionMessage()
-                }
-            })
+        viewModel.occurredException.observe(this, Observer {
+            it?.let {
+                toast(it.message!!)
+                viewModel.doneShowingExceptionMessage()
+            }
+        })
 
-        viewModel.receivedMovieInfo
-            .observe(this, Observer {
-                fillActivityFieldsWithMovieInfo(it)
-                progressBar.visibility = View.GONE
-            })
+        viewModel.receivedMovieInfo.observe(this, Observer {
+            fillActivityFieldsWithMovieInfo(it)
+            progressBar.visibility = View.GONE
+        })
     }
 
     private fun fillActivityFieldsWithMovieInfo(allMovieInfo: AllMovieInfo?) {

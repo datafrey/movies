@@ -1,14 +1,13 @@
 package com.datafrey.movies.viewmodels
 
-import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.datafrey.movies.data.AllMovieInfo
-import com.datafrey.movies.data.OmdbService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.datafrey.movies.data.OmdbApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MovieInfoViewModel(
     private val imdbID: String
@@ -31,24 +30,12 @@ class MovieInfoViewModel(
     }
 
     fun getMovieInfo() {
-        OmdbService.getApi()
-            .getMovieByImdbID(imdbID)
-            .enqueue(object : Callback<AllMovieInfo> {
-                override fun onFailure(call: Call<AllMovieInfo>, t: Throwable) {
-                    _occurredException.value = NetworkErrorException("Loading failed, " +
-                            "please check your network connection.")
-                }
-
-                override fun onResponse(
-                    call: Call<AllMovieInfo>,
-                    response: Response<AllMovieInfo>
-                ) {
-                    try {
-                        _receivedMovieInfo.value = response.body()
-                    } catch (npe: NullPointerException) {
-                        _occurredException.value = NullPointerException("Loading failed.")
-                    }
-                }
-            })
+        viewModelScope.launch(Dispatchers.Default) {
+            try {
+                _receivedMovieInfo.postValue(OmdbApi.retrofitService.getMovieByImdbID(imdbID))
+            } catch (npe: NullPointerException) {
+                _occurredException.postValue(NullPointerException("Loading failed."))
+            }
+        }
     }
 }
