@@ -22,7 +22,7 @@ private val retrofit = Retrofit.Builder()
 interface OmdbApiService {
 
     @GET(Util.API_KEY_QUERY)
-    suspend fun getMoviesByQuery(@Query("s") query: String): ShortMovieInfoSearch
+    suspend fun getMoviesByQuery(@Query("s") query: String): MovieSearchCallback
 
     @GET(Util.API_KEY_QUERY)
     suspend fun getMovieByImdbID(@Query("i") imdbId: String): AllMovieInfo

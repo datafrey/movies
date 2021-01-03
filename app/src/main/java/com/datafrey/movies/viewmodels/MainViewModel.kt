@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
             viewModelScope.launch(Dispatchers.Default) {
                 try {
                     _foundMoviesList.postValue(
-                        OmdbApi.retrofitService.getMoviesByQuery(query).searchResults!!)
+                        OmdbApi.retrofitService.getMoviesByQuery(query).searchResult!!)
                 } catch (uhe: UnknownHostException) {
                     _occurredException.postValue(UnknownHostException("Connection error."))
                 } catch (jde: JsonDataException) {
