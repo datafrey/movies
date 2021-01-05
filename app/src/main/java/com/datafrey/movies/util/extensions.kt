@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 
 fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, message, duration).show()
@@ -26,5 +26,5 @@ inline fun <reified A:Activity> Fragment.startActivity(intent: Intent.() -> Unit
     startActivity(Intent(requireContext(), A::class.java).apply(intent))
 }
 
-fun ImageView.loadImageFromUrl(url: String?) =
-    Picasso.get().load(url).fit().centerInside().into(this)
+fun ImageView.loadImageFromUrl(url: String) =
+    Glide.with(context).load(url).into(this)

@@ -5,24 +5,14 @@
     tools:context=".activities.MovieInfoActivity">
 
     <data>
-
         <variable
             name="allMovieInfo"
             type="com.datafrey.movies.data.AllMovieInfo" />
-
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="visible"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -38,7 +28,7 @@
                     android:layout_height="300dp"
                     android:padding="4dp"
                     android:layout_alignParentLeft="true"
-                    app:url="@{allMovieInfo.Poster}"/>
+                    app:url="@{allMovieInfo.posterUrl}"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,7 +44,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Title: ` + allMovieInfo.Title}"/>
+                        android:text="@{`Title: ` + allMovieInfo.title}"/>
 
                     <TextView
                         android:id="@+id/yearTextView"
@@ -63,7 +53,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Year: ` + allMovieInfo.Year}"/>
+                        android:text="@{`Year: ` + allMovieInfo.year}"/>
 
                     <TextView
                         android:id="@+id/ratedTextView"
@@ -72,7 +62,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Rated: ` + allMovieInfo.Rated}"/>
+                        android:text="@{`Rated: ` + allMovieInfo.rated}"/>
 
                     <TextView
                         android:id="@+id/releasedTextView"
@@ -81,7 +71,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Released: ` + allMovieInfo.Released}"/>
+                        android:text="@{`Released: ` + allMovieInfo.released}"/>
 
                     <TextView
                         android:id="@+id/runtimeTextView"
@@ -90,7 +80,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Runtime: ` + allMovieInfo.Runtime}"/>
+                        android:text="@{`Runtime: ` + allMovieInfo.runtime}"/>
 
                     <TextView
                         android:id="@+id/genreTextView"
@@ -99,7 +89,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Genre: ` + allMovieInfo.Genre}"/>
+                        android:text="@{`Genre: ` + allMovieInfo.genre}"/>
 
                     <TextView
                         android:id="@+id/directorTextView"
@@ -108,7 +98,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Director: ` + allMovieInfo.Director}"/>
+                        android:text="@{`Director: ` + allMovieInfo.director}"/>
 
                 </LinearLayout>
 
@@ -125,7 +115,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Writer: ` + allMovieInfo.Writer}"/>
+                        android:text="@{`Writer: ` + allMovieInfo.writer}"/>
 
                     <TextView
                         android:id="@+id/actorsTextView"
@@ -134,7 +124,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Actors: ` + allMovieInfo.Actors}"/>
+                        android:text="@{`Actors: ` + allMovieInfo.actors}"/>
 
                     <TextView
                         android:id="@+id/plotTextView"
@@ -143,7 +133,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Plot: ` + allMovieInfo.Plot}"/>
+                        android:text="@{`Plot: ` + allMovieInfo.plot}"/>
 
                     <TextView
                         android:id="@+id/languageTextView"
@@ -152,7 +142,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Language: ` + allMovieInfo.Language}"/>
+                        android:text="@{`Language: ` + allMovieInfo.language}"/>
 
                     <TextView
                         android:id="@+id/countryTextView"
@@ -161,7 +151,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Country: ` + allMovieInfo.Country}"/>
+                        android:text="@{`Country: ` + allMovieInfo.country}"/>
 
                     <TextView
                         android:id="@+id/awardsTextView"
@@ -170,14 +160,25 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Awards: ` + allMovieInfo.Awards}"/>
+                        android:text="@{`Awards: ` + allMovieInfo.awards}"/>
 
                 </LinearLayout>
-
             </RelativeLayout>
-
         </ScrollView>
 
-    </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/loadingCurtainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 </layout>

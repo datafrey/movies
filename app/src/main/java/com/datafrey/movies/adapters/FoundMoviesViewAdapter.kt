@@ -1,40 +1,48 @@
 package com.datafrey.movies.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.datafrey.movies.R
 import com.datafrey.movies.data.ShortMovieInfo
 import com.datafrey.movies.databinding.MovieItemBinding
 
-class FoundMoviesViewAdapter(
-    private var foundMoviesList: List<ShortMovieInfo>
-) : RecyclerView.Adapter<FoundMoviesViewAdapter.FoundMovieViewHolder>() {
-
-    private var movieItemEventListener: MovieItemEventListener? = null
-
-    fun setMovieItemEventListener(movieItemEventListener: MovieItemEventListener) {
-        this.movieItemEventListener = movieItemEventListener
-    }
+class FoundMoviesViewAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<ShortMovieInfo,
+                FoundMoviesViewAdapter.FoundMovieViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        FoundMovieViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.movie_item, parent, false))
-
-    override fun getItemCount() = foundMoviesList.size
+        FoundMovieViewHolder(MovieItemBinding.inflate(
+            LayoutInflater.from(parent.context)))
 
     override fun onBindViewHolder(holder: FoundMovieViewHolder, position: Int) {
-        val currentMovie = foundMoviesList[position]
-        holder.binding.shortMovieInfo = currentMovie
-        holder.binding.movieItemEventListener = movieItemEventListener
+        val currentMovie = getItem(position)
+        holder.bind(currentMovie, onClickListener)
     }
 
-    class FoundMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = MovieItemBinding.bind(itemView)
-    }
-}
+    companion object DiffCallback : DiffUtil.ItemCallback<ShortMovieInfo>() {
+        override fun areItemsTheSame(oldItem: ShortMovieInfo, newItem: ShortMovieInfo) =
+            oldItem === newItem
 
-interface MovieItemEventListener {
-    fun onClick(clickedItemMovieInfo: ShortMovieInfo)
+        override fun areContentsTheSame(oldItem: ShortMovieInfo, newItem: ShortMovieInfo) =
+            oldItem.imdbId == newItem.imdbId
+    }
+
+    class FoundMovieViewHolder(
+        private val binding: MovieItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(shortMovieInfo: ShortMovieInfo, onClickListener: OnClickListener) {
+            binding.let {
+                it.shortMovieInfo = shortMovieInfo
+                it.onClickListener = onClickListener
+                it.executePendingBindings()
+            }
+        }
+    }
+
+    class OnClickListener(val clickListener: (clickedItemMovieInfo: ShortMovieInfo) -> Unit) {
+        fun onClick(clickedItemMovieInfo: ShortMovieInfo) = clickListener(clickedItemMovieInfo)
+    }
 }

@@ -10,9 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class MovieInfoViewModel(
-    private val imdbID: String
-) : ViewModel() {
+class MovieInfoViewModel(private val imdbId: String) : ViewModel() {
 
     private val _receivedMovieInfo = MutableLiveData<AllMovieInfo>()
     val receivedMovieInfo: LiveData<AllMovieInfo>
@@ -33,7 +31,7 @@ class MovieInfoViewModel(
     fun getMovieInfo() {
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                _receivedMovieInfo.postValue(OmdbApi.retrofitService.getMovieByImdbID(imdbID))
+                _receivedMovieInfo.postValue(OmdbApi.retrofitService.getMovieByImdbID(imdbId))
             } catch (uhe: UnknownHostException) {
                 _occurredException.postValue(UnknownHostException("Connection error."))
             } catch (e: Exception) {

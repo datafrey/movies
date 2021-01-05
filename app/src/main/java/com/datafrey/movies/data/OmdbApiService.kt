@@ -1,6 +1,6 @@
 package com.datafrey.movies.data
 
-import com.datafrey.movies.util.Util
+import com.datafrey.movies.util.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -21,10 +21,10 @@ private val retrofit = Retrofit.Builder()
 
 interface OmdbApiService {
 
-    @GET(Util.API_KEY_QUERY)
+    @GET(Constants.API_KEY_QUERY)
     suspend fun getMoviesByQuery(@Query("s") query: String): MovieSearchCallback
 
-    @GET(Util.API_KEY_QUERY)
+    @GET(Constants.API_KEY_QUERY)
     suspend fun getMovieByImdbID(@Query("i") imdbId: String): AllMovieInfo
 }
 
