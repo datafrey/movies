@@ -1,8 +1,8 @@
 package com.datafrey.movies.viewmodels
 
 import androidx.lifecycle.*
-import com.datafrey.movies.data.OmdbApi
-import com.datafrey.movies.data.ShortMovieInfo
+import com.datafrey.movies.network.NetworkShortMovieInfo
+import com.datafrey.movies.network.OmdbApi
 import com.squareup.moshi.JsonDataException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,8 +10,8 @@ import java.net.UnknownHostException
 
 class MainViewModel : ViewModel() {
 
-    private val _foundMoviesList = MutableLiveData<List<ShortMovieInfo>>(listOf())
-    val foundMoviesList: LiveData<List<ShortMovieInfo>>
+    private val _foundMoviesList = MutableLiveData<List<NetworkShortMovieInfo>>(listOf())
+    val foundMoviesList: LiveData<List<NetworkShortMovieInfo>>
         get() = _foundMoviesList
 
     val foundMoviesListIsEmpty: LiveData<Boolean>

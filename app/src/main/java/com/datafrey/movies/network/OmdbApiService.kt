@@ -1,4 +1,4 @@
-package com.datafrey.movies.data
+package com.datafrey.movies.network
 
 import com.datafrey.movies.util.Constants
 import com.squareup.moshi.Moshi
@@ -25,7 +25,7 @@ interface OmdbApiService {
     suspend fun getMoviesByQuery(@Query("s") query: String): MovieSearchCallback
 
     @GET(Constants.API_KEY_QUERY)
-    suspend fun getMovieByImdbID(@Query("i") imdbId: String): AllMovieInfo
+    suspend fun getMovieByImdbID(@Query("i") imdbId: String): NetworkAllMovieInfo
 }
 
 object OmdbApi {

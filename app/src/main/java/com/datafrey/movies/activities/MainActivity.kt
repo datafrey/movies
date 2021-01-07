@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
-import com.datafrey.movies.adapters.FoundMoviesViewAdapter
+import com.datafrey.movies.adapters.ShortMovieInfoRecyclerViewAdapter
 // import com.datafrey.movies.adapters.MovieItemEventListener
 import com.datafrey.movies.databinding.ActivityMainBinding
 import com.datafrey.movies.util.data
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
             it.lifecycleOwner = this
         }
 
-        foundMoviesRecyclerView.adapter = FoundMoviesViewAdapter(
-            FoundMoviesViewAdapter.OnClickListener { movieInfo ->
+        foundMoviesRecyclerView.adapter = ShortMovieInfoRecyclerViewAdapter(
+            ShortMovieInfoRecyclerViewAdapter.OnClickListener { movieInfo ->
                 startActivity<MovieInfoActivity> {
                     putExtra("imdbID", movieInfo.imdbId)
                 }

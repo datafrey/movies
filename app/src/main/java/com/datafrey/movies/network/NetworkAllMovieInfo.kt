@@ -1,8 +1,8 @@
-package com.datafrey.movies.data
+package com.datafrey.movies.network
 
 import com.squareup.moshi.Json
 
-data class AllMovieInfo(
+data class NetworkAllMovieInfo(
     @Json(name = "Actors") val actors: String,
     @Json(name = "Awards") val awards: String,
     @Json(name = "BoxOffice") val boxOffice: String,

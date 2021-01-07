@@ -5,11 +5,11 @@
     <data>
         <variable
             name="shortMovieInfo"
-            type="com.datafrey.movies.data.ShortMovieInfo" />
+            type="com.datafrey.movies.network.NetworkShortMovieInfo" />
 
         <variable
             name="onClickListener"
-            type="com.datafrey.movies.adapters.FoundMoviesViewAdapter.OnClickListener" />
+            type="com.datafrey.movies.adapters.ShortMovieInfoRecyclerViewAdapter.OnClickListener" />
     </data>
 
     <LinearLayout

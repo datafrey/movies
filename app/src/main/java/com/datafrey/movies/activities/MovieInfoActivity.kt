@@ -5,8 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.datafrey.movies.data.AllMovieInfo
 import com.datafrey.movies.databinding.ActivityMovieInfoBinding
+import com.datafrey.movies.network.NetworkAllMovieInfo
 import com.datafrey.movies.util.toast
 import com.datafrey.movies.viewmodelfactories.MovieInfoViewModelFactory
 import com.datafrey.movies.viewmodels.MovieInfoViewModel
@@ -33,7 +33,7 @@ class MovieInfoActivity : AppCompatActivity() {
 
         imdbId = intent.getStringExtra("imdbID")!!
 
-        viewModel.receivedMovieInfo.observe(this, Observer {
+        viewModel.receivedMovieInfoNetwork.observe(this, Observer {
             fillActivityFieldsWithMovieInfo(it)
             loadingCurtainView.visibility = View.GONE
             progressBar.visibility = View.GONE
@@ -49,12 +49,12 @@ class MovieInfoActivity : AppCompatActivity() {
         })
     }
 
-    private fun fillActivityFieldsWithMovieInfo(allMovieInfo: AllMovieInfo) {
-        binding.allMovieInfo = allMovieInfo
+    private fun fillActivityFieldsWithMovieInfo(networkAllMovieInfo: NetworkAllMovieInfo) {
+        binding.allMovieInfo = networkAllMovieInfo
 
         supportActionBar!!.run {
-            title = "${allMovieInfo.title} (${allMovieInfo.year})"
-            subtitle = "IMDB id: ${allMovieInfo.imdbId}"
+            title = "${networkAllMovieInfo.title} (${networkAllMovieInfo.year})"
+            subtitle = "IMDB id: ${networkAllMovieInfo.imdbId}"
             setDisplayHomeAsUpEnabled(true)
         }
     }

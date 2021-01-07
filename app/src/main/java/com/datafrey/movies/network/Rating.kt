@@ -1,4 +1,4 @@
-package com.datafrey.movies.data
+package com.datafrey.movies.network
 
 import com.squareup.moshi.Json
 

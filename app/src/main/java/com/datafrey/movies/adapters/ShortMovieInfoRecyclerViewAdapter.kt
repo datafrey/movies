@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.datafrey.movies.data.ShortMovieInfo
 import com.datafrey.movies.databinding.MovieItemBinding
+import com.datafrey.movies.network.NetworkShortMovieInfo
 
-class FoundMoviesViewAdapter(private val onClickListener: OnClickListener) :
-    ListAdapter<ShortMovieInfo,
-                FoundMoviesViewAdapter.FoundMovieViewHolder>(DiffCallback) {
+class ShortMovieInfoRecyclerViewAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<NetworkShortMovieInfo,
+                ShortMovieInfoRecyclerViewAdapter.FoundMovieViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         FoundMovieViewHolder(MovieItemBinding.inflate(
@@ -21,11 +21,11 @@ class FoundMoviesViewAdapter(private val onClickListener: OnClickListener) :
         holder.bind(currentMovie, onClickListener)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ShortMovieInfo>() {
-        override fun areItemsTheSame(oldItem: ShortMovieInfo, newItem: ShortMovieInfo) =
+    companion object DiffCallback : DiffUtil.ItemCallback<NetworkShortMovieInfo>() {
+        override fun areItemsTheSame(oldItem: NetworkShortMovieInfo, newItem: NetworkShortMovieInfo) =
             oldItem === newItem
 
-        override fun areContentsTheSame(oldItem: ShortMovieInfo, newItem: ShortMovieInfo) =
+        override fun areContentsTheSame(oldItem: NetworkShortMovieInfo, newItem: NetworkShortMovieInfo) =
             oldItem.imdbId == newItem.imdbId
     }
 
@@ -33,16 +33,16 @@ class FoundMoviesViewAdapter(private val onClickListener: OnClickListener) :
         private val binding: MovieItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(shortMovieInfo: ShortMovieInfo, onClickListener: OnClickListener) {
+        fun bind(networkShortMovieInfo: NetworkShortMovieInfo, onClickListener: OnClickListener) {
             binding.let {
-                it.shortMovieInfo = shortMovieInfo
+                it.shortMovieInfo = networkShortMovieInfo
                 it.onClickListener = onClickListener
                 it.executePendingBindings()
             }
         }
     }
 
-    class OnClickListener(val clickListener: (clickedItemMovieInfo: ShortMovieInfo) -> Unit) {
-        fun onClick(clickedItemMovieInfo: ShortMovieInfo) = clickListener(clickedItemMovieInfo)
+    class OnClickListener(val clickListener: (clickedItemMovieInfoNetwork: NetworkShortMovieInfo) -> Unit) {
+        fun onClick(clickedItemMovieInfoNetwork: NetworkShortMovieInfo) = clickListener(clickedItemMovieInfoNetwork)
     }
 }
