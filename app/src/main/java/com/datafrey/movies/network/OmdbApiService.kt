@@ -25,11 +25,11 @@ interface OmdbApiService {
     suspend fun getMoviesByQuery(@Query("s") query: String): MovieSearchCallback
 
     @GET(Constants.API_KEY_QUERY)
-    suspend fun getMovieByImdbID(@Query("i") imdbId: String): NetworkAllMovieInfo
+    suspend fun getMovieByImdbId(@Query("i") imdbId: String): NetworkAllMovieInfo
 }
 
 object OmdbApi {
-    val retrofitService: OmdbApiService by lazy {
+    val service: OmdbApiService by lazy {
         retrofit.create(OmdbApiService::class.java)
     }
 }

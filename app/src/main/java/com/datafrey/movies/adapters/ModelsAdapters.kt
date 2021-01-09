@@ -68,6 +68,27 @@ fun DatabaseMovieInfo.toDomainAllMovieInfo(): DomainAllMovieInfo {
     )
 }
 
+fun DomainAllMovieInfo.toDatabaseMovieInfo(): DatabaseMovieInfo {
+    return DatabaseMovieInfo(
+        imdbId = this.imdbId,
+        actors = this.actors,
+        awards = this.awards,
+        country = this.country,
+        director = this.director,
+        genre = this.genre,
+        language = this.language,
+        plot = this.plot,
+        posterUrl = this.posterUrl,
+        rated = this.rated,
+        released = this.released,
+        runtime = this.runtime,
+        title = this.title,
+        type = this.type,
+        writer = this.writer,
+        year = this.year
+    )
+}
+
 fun NetworkAllMovieInfo.toDatabaseMovieInfo(): DatabaseMovieInfo {
     return DatabaseMovieInfo(
         imdbId = this.imdbId,
@@ -90,11 +111,11 @@ fun NetworkAllMovieInfo.toDatabaseMovieInfo(): DatabaseMovieInfo {
 }
 
 @JvmName("toDomainShortMovieInfosNetworkShortMovieInfo")
-fun List<NetworkShortMovieInfo>.toDomainShortMovieInfos(): List<DomainShortMovieInfo> {
+fun List<NetworkShortMovieInfo>.toListOfDomainShortMovieInfos(): List<DomainShortMovieInfo> {
     return map { it.toDomainShortMovieInfo() }
 }
 
 @JvmName("toDomainShortMovieInfosDatabaseMovieInfo")
-fun List<DatabaseMovieInfo>.toDomainShortMovieInfos(): List<DomainShortMovieInfo> {
+fun List<DatabaseMovieInfo>.toListOfDomainShortMovieInfos(): List<DomainShortMovieInfo> {
     return map { it.toDomainShortMovieInfo() }
 }

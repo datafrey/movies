@@ -1,7 +1,8 @@
 package com.datafrey.movies.viewmodels
 
 import androidx.lifecycle.*
-import com.datafrey.movies.network.NetworkShortMovieInfo
+import com.datafrey.movies.adapters.toListOfDomainShortMovieInfos
+import com.datafrey.movies.domain.DomainShortMovieInfo
 import com.datafrey.movies.network.OmdbApi
 import com.squareup.moshi.JsonDataException
 import kotlinx.coroutines.Dispatchers
@@ -10,8 +11,8 @@ import java.net.UnknownHostException
 
 class MainViewModel : ViewModel() {
 
-    private val _foundMoviesList = MutableLiveData<List<NetworkShortMovieInfo>>(listOf())
-    val foundMoviesList: LiveData<List<NetworkShortMovieInfo>>
+    private val _foundMoviesList = MutableLiveData<List<DomainShortMovieInfo>>(listOf())
+    val foundMoviesList: LiveData<List<DomainShortMovieInfo>>
         get() = _foundMoviesList
 
     val foundMoviesListIsEmpty: LiveData<Boolean>
@@ -33,8 +34,8 @@ class MainViewModel : ViewModel() {
         if (query.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.Default) {
                 try {
-                    _foundMoviesList.postValue(
-                        OmdbApi.retrofitService.getMoviesByQuery(query).searchResult!!)
+                    val searchCallback = OmdbApi.service.getMoviesByQuery(query)
+                    _foundMoviesList.postValue(searchCallback.searchResult!!.toListOfDomainShortMovieInfos())
                 } catch (uhe: UnknownHostException) {
                     _occurredException.postValue(UnknownHostException("Connection error."))
                 } catch (jde: JsonDataException) {

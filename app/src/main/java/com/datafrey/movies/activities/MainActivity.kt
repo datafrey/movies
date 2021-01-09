@@ -1,15 +1,14 @@
 package com.datafrey.movies.activities
 
+// import com.datafrey.movies.adapters.MovieItemEventListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import com.datafrey.movies.R
 import com.datafrey.movies.adapters.ShortMovieInfoRecyclerViewAdapter
-// import com.datafrey.movies.adapters.MovieItemEventListener
 import com.datafrey.movies.databinding.ActivityMainBinding
 import com.datafrey.movies.util.data
 import com.datafrey.movies.util.startActivity
@@ -47,11 +46,6 @@ class MainActivity : AppCompatActivity() {
             })
 
         searchFloatingActionButton.setOnClickListener { onSearchButtonClick() }
-
-        foundMoviesRecyclerView.layoutManager = GridLayoutManager(
-            baseContext,
-            resources.getInteger(R.integer.column_count)
-        )
 
         viewModel.occurredException.observe(this, Observer {
             it?.let {
