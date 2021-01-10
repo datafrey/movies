@@ -6,6 +6,8 @@
         <variable
             name="viewModel"
             type="com.datafrey.movies.viewmodels.MovieInfoViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
@@ -164,19 +166,28 @@
             </RelativeLayout>
         </ScrollView>
 
-        <FrameLayout
-            android:id="@+id/loadingCurtainView"
+        <RelativeLayout
+            android:id="@+id/placeholderView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            android:visibility="@{viewModel.isMovieInfoReceived ? View.VISIBLE : View.GONE}">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="visible"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
 
+            <TextView
+                android:id="@+id/errorMessageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

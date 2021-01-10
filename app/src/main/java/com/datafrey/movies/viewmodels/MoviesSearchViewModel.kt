@@ -15,7 +15,7 @@ class MoviesSearchViewModel : ViewModel() {
     val foundMoviesList: LiveData<List<DomainShortMovieInfo>>
         get() = _foundMoviesList
 
-    val foundMoviesListIsEmpty: LiveData<Boolean>
+    val isFoundMoviesListEmpty: LiveData<Boolean>
         get() = Transformations.map(_foundMoviesList) { it.isEmpty() }
 
     private val _occurredException = MutableLiveData<Exception?>()
@@ -26,7 +26,7 @@ class MoviesSearchViewModel : ViewModel() {
         _occurredException.value = null
     }
 
-    fun cleanFoundMoviesList() {
+    fun clearFoundMoviesList() {
         _foundMoviesList.value = listOf()
     }
 

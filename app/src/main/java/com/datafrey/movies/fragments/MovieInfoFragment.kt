@@ -16,40 +16,36 @@ import com.datafrey.movies.viewmodels.MovieInfoViewModel
 
 class MovieInfoFragment : Fragment() {
 
-    private lateinit var imdbId: String
-
     private lateinit var binding: FragmentMovieInfoBinding
 
-    private val viewModel: MovieInfoViewModel by lazy {
-        ViewModelProvider(this, MovieInfoViewModelFactory(imdbId))
-            .get(MovieInfoViewModel::class.java)
-    }
+    private lateinit var viewModel: MovieInfoViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        imdbId = MovieInfoFragmentArgs.fromBundle(requireArguments()).imdbId
+        val imdbId = MovieInfoFragmentArgs.fromBundle(requireArguments()).imdbId
 
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_movie_info, container, false)
+
+        viewModel = ViewModelProvider(this, MovieInfoViewModelFactory(imdbId))
+            .get(MovieInfoViewModel::class.java)
 
         binding.let {
             it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 
-        viewModel.receivedMovieInfo.observe(viewLifecycleOwner, Observer {
-            binding.loadingCurtainView.visibility = View.GONE
-            binding.progressBar.visibility = View.GONE
-        })
-
         viewModel.occurredException.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toast(it.message!!)
                 binding.progressBar.visibility = View.GONE
-                requireActivity().actionBar!!.title = it.message
+                binding.errorMessageTextView.run {
+                    text = it.message
+                    visibility = View.VISIBLE
+                }
                 viewModel.uiReactedToOccuredException()
             }
         })

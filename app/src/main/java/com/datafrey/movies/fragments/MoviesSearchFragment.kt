@@ -52,7 +52,7 @@ class MoviesSearchFragment : Fragment() {
         viewModel.occurredException.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toast(it.message!!)
-                viewModel.cleanFoundMoviesList()
+                viewModel.clearFoundMoviesList()
                 viewModel.uiReactedToOccuredException()
             }
         })

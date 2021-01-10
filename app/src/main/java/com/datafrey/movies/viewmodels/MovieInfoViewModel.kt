@@ -1,9 +1,6 @@
 package com.datafrey.movies.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.datafrey.movies.adapters.toDomainAllMovieInfo
 import com.datafrey.movies.domain.DomainAllMovieInfo
 import com.datafrey.movies.network.OmdbApi
@@ -13,9 +10,12 @@ import java.net.UnknownHostException
 
 class MovieInfoViewModel(private val imdbId: String) : ViewModel() {
 
-    private val _receivedMovieInfo = MutableLiveData<DomainAllMovieInfo>()
+    private val _receivedMovieInfo = MutableLiveData<DomainAllMovieInfo>(null)
     val receivedMovieInfo: LiveData<DomainAllMovieInfo>
         get() = _receivedMovieInfo
+
+    val isMovieInfoReceived: LiveData<Boolean>
+        get() = Transformations.map(_receivedMovieInfo) { it == null }
 
     private val _occurredException = MutableLiveData<Exception?>()
     val occurredException: LiveData<Exception?>

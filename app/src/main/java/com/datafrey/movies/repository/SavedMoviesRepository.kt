@@ -60,8 +60,8 @@ class SavedMoviesRepository(database: SavedMoviesDatabase) {
     suspend fun refreshMovieInfo(imdbId: String) {
         with(Dispatchers.IO) {
             try {
-                val newMovieInfo = OmdbApi.service.getMovieByImdbId(imdbId)
-                savedMoviesDao.update(newMovieInfo.toDatabaseMovieInfo())
+                val freshMovieInfo = OmdbApi.service.getMovieByImdbId(imdbId)
+                savedMoviesDao.update(freshMovieInfo.toDatabaseMovieInfo())
             } catch (uhe: UnknownHostException) {
                 _occurredException.postValue(UnknownHostException("Connection error."))
             } catch (e: Exception) {
