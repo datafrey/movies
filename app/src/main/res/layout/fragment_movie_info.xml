@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.MovieInfoActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="allMovieInfo"
-            type="com.datafrey.movies.domain.DomainAllMovieInfo" />
+            name="viewModel"
+            type="com.datafrey.movies.viewmodels.MovieInfoViewModel" />
     </data>
 
     <RelativeLayout
@@ -28,7 +26,7 @@
                     android:layout_height="300dp"
                     android:padding="4dp"
                     android:layout_alignParentLeft="true"
-                    app:url="@{allMovieInfo.posterUrl}"/>
+                    app:url="@{viewModel.receivedMovieInfo.posterUrl}"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -44,7 +42,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Title: ` + allMovieInfo.title}"/>
+                        android:text="@{`Title: ` + viewModel.receivedMovieInfo.title}"/>
 
                     <TextView
                         android:id="@+id/yearTextView"
@@ -53,7 +51,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Year: ` + allMovieInfo.year}"/>
+                        android:text="@{`Year: ` + viewModel.receivedMovieInfo.year}"/>
 
                     <TextView
                         android:id="@+id/ratedTextView"
@@ -62,7 +60,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Rated: ` + allMovieInfo.rated}"/>
+                        android:text="@{`Rated: ` + viewModel.receivedMovieInfo.rated}"/>
 
                     <TextView
                         android:id="@+id/releasedTextView"
@@ -71,7 +69,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Released: ` + allMovieInfo.released}"/>
+                        android:text="@{`Released: ` + viewModel.receivedMovieInfo.released}"/>
 
                     <TextView
                         android:id="@+id/runtimeTextView"
@@ -80,7 +78,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Runtime: ` + allMovieInfo.runtime}"/>
+                        android:text="@{`Runtime: ` + viewModel.receivedMovieInfo.runtime}"/>
 
                     <TextView
                         android:id="@+id/genreTextView"
@@ -89,7 +87,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Genre: ` + allMovieInfo.genre}"/>
+                        android:text="@{`Genre: ` + viewModel.receivedMovieInfo.genre}"/>
 
                     <TextView
                         android:id="@+id/directorTextView"
@@ -98,7 +96,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Director: ` + allMovieInfo.director}"/>
+                        android:text="@{`Director: ` + viewModel.receivedMovieInfo.director}"/>
 
                 </LinearLayout>
 
@@ -115,7 +113,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Writer: ` + allMovieInfo.writer}"/>
+                        android:text="@{`Writer: ` + viewModel.receivedMovieInfo.writer}"/>
 
                     <TextView
                         android:id="@+id/actorsTextView"
@@ -124,7 +122,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Actors: ` + allMovieInfo.actors}"/>
+                        android:text="@{`Actors: ` + viewModel.receivedMovieInfo.actors}"/>
 
                     <TextView
                         android:id="@+id/plotTextView"
@@ -133,7 +131,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Plot: ` + allMovieInfo.plot}"/>
+                        android:text="@{`Plot: ` + viewModel.receivedMovieInfo.plot}"/>
 
                     <TextView
                         android:id="@+id/languageTextView"
@@ -142,7 +140,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Language: ` + allMovieInfo.language}"/>
+                        android:text="@{`Language: ` + viewModel.receivedMovieInfo.language}"/>
 
                     <TextView
                         android:id="@+id/countryTextView"
@@ -151,7 +149,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Country: ` + allMovieInfo.country}"/>
+                        android:text="@{`Country: ` + viewModel.receivedMovieInfo.country}"/>
 
                     <TextView
                         android:id="@+id/awardsTextView"
@@ -160,7 +158,7 @@
                         android:padding="4dp"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
-                        android:text="@{`Awards: ` + allMovieInfo.awards}"/>
+                        android:text="@{`Awards: ` + viewModel.receivedMovieInfo.awards}"/>
 
                 </LinearLayout>
             </RelativeLayout>

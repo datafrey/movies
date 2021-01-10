@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.datafrey.movies.activities.MovieInfoActivity">
-
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datafrey.movies.activities.MainActivity"/>
-
-        </activity>
         <activity android:name="com.datafrey.movies.activities.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class MainViewModel : ViewModel() {
+class MoviesSearchViewModel : ViewModel() {
 
     private val _foundMoviesList = MutableLiveData<List<DomainShortMovieInfo>>(listOf())
     val foundMoviesList: LiveData<List<DomainShortMovieInfo>>

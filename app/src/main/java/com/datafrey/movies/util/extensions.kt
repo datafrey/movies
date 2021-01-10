@@ -16,6 +16,12 @@ fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) =
 fun Context.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, message, duration).show()
 
+fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(activity, message, duration).show()
+
+fun Fragment.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(activity, message, duration).show()
+
 val EditText.data get() = text.toString().trim()
 
 inline fun <reified A:Activity> Context.startActivity(intent: Intent.() -> Unit = {}) {
