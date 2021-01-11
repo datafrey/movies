@@ -41,12 +41,12 @@ class MoviesRepository(database: SavedMoviesDatabase) {
         savedMoviesDao.delete(imdbId)
     }
 
-    suspend fun getAllSavedMoviesShortMovieInfos() =
+    fun getAllSavedMoviesShortMovieInfos() =
         Transformations.map(savedMoviesDao.getAllMovies()) {
             it.toListOfDomainShortMovieInfos()
         }
 
-    suspend fun clearMoviesDatabase(imdbId: String) {
+    suspend fun clearMoviesDatabase() {
         savedMoviesDao.clear()
     }
 

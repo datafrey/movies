@@ -43,6 +43,17 @@
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/savedMoviesFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="100dp"
+            android:clickable="true"
+            android:src="@drawable/ic_white_save_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/searchFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

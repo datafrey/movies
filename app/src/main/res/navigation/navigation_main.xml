@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_moviesSearchFragment_to_movieInfoFragment"
             app:destination="@id/movieInfoFragment" />
+        <action
+            android:id="@+id/action_moviesSearchFragment_to_savedMoviesFragment"
+            app:destination="@id/savedMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieInfoFragment"
@@ -22,5 +25,14 @@
         <argument
             android:name="imdbId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedMoviesFragment"
+        android:name="com.datafrey.movies.fragments.SavedMoviesFragment"
+        android:label="Saved movies"
+        tools:layout="@layout/fragment_saved_movies" >
+        <action
+            android:id="@+id/action_savedMoviesFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
     </fragment>
 </navigation>
