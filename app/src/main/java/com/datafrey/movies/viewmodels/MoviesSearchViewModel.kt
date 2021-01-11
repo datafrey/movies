@@ -1,15 +1,16 @@
 package com.datafrey.movies.viewmodels
 
+import android.app.Application
 import androidx.lifecycle.*
-import com.datafrey.movies.adapters.toListOfDomainShortMovieInfos
+import com.datafrey.movies.database.getSavedMoviesDatabase
 import com.datafrey.movies.domain.DomainShortMovieInfo
-import com.datafrey.movies.network.OmdbApi
-import com.squareup.moshi.JsonDataException
+import com.datafrey.movies.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
-class MoviesSearchViewModel : ViewModel() {
+class MoviesSearchViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val repository = MoviesRepository(getSavedMoviesDatabase(getApplication()))
 
     private val _foundMoviesList = MutableLiveData<List<DomainShortMovieInfo>>(listOf())
     val foundMoviesList: LiveData<List<DomainShortMovieInfo>>
@@ -18,34 +19,28 @@ class MoviesSearchViewModel : ViewModel() {
     val isFoundMoviesListEmpty: LiveData<Boolean>
         get() = Transformations.map(_foundMoviesList) { it.isEmpty() }
 
-    private val _occurredException = MutableLiveData<Exception?>()
-    val occurredException: LiveData<Exception?>
-        get() = _occurredException
+    private val _occurredInputValidationException = MutableLiveData<Exception?>()
+    val occurredInputValidationException: LiveData<Exception?>
+        get() = _occurredInputValidationException
 
-    fun uiReactedToOccuredException() {
-        _occurredException.value = null
+    fun uiReactedToOccurredInputValidationException() {
+        _occurredInputValidationException.value = null
     }
 
-    fun clearFoundMoviesList() {
-        _foundMoviesList.value = listOf()
+    val occurredRepositoryException: LiveData<Exception?>
+        get() = repository.occurredException
+
+    fun uiReactedToOccurredRepositoryException() {
+        repository.occurredExceptionHandled()
     }
 
     fun searchMovies(query: String) {
         if (query.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.Default) {
-                try {
-                    val searchCallback = OmdbApi.service.getMoviesByQuery(query)
-                    _foundMoviesList.postValue(searchCallback.searchResult!!.toListOfDomainShortMovieInfos())
-                } catch (uhe: UnknownHostException) {
-                    _occurredException.postValue(UnknownHostException("Connection error."))
-                } catch (jde: JsonDataException) {
-                    _occurredException.postValue(JsonDataException("Nothing have been found."))
-                } catch (e: Exception) {
-                    _occurredException.postValue(Exception("An error occured."))
-                }
+                _foundMoviesList.postValue(repository.searchMoviesInNetwork(query))
             }
         } else {
-            _occurredException.value = IllegalArgumentException("Please input a keyword/keyphrase.")
+            _occurredInputValidationException.value = IllegalArgumentException("Please input a keyword/keyphrase.")
         }
     }
 }

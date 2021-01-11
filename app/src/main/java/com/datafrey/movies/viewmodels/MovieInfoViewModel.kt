@@ -1,28 +1,34 @@
 package com.datafrey.movies.viewmodels
 
-import androidx.lifecycle.*
-import com.datafrey.movies.adapters.toDomainAllMovieInfo
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import com.datafrey.movies.database.getSavedMoviesDatabase
 import com.datafrey.movies.domain.DomainAllMovieInfo
-import com.datafrey.movies.network.OmdbApi
+import com.datafrey.movies.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
-class MovieInfoViewModel(private val imdbId: String) : ViewModel() {
+class MovieInfoViewModel(
+    app: Application,
+    private val imdbId: String
+) : AndroidViewModel(app) {
 
-    private val _receivedMovieInfo = MutableLiveData<DomainAllMovieInfo>(null)
+    private val repository = MoviesRepository(getSavedMoviesDatabase(getApplication()))
+
     val receivedMovieInfo: LiveData<DomainAllMovieInfo>
-        get() = _receivedMovieInfo
+        get() = repository.requestedMovieInfo
 
     val isMovieInfoReceived: LiveData<Boolean>
-        get() = Transformations.map(_receivedMovieInfo) { it == null }
+        get() = Transformations.map(receivedMovieInfo) { it != null }
 
-    private val _occurredException = MutableLiveData<Exception?>()
-    val occurredException: LiveData<Exception?>
-        get() = _occurredException
+    val occurredRepositoryException: LiveData<Exception?>
+        get() = repository.occurredException
 
-    fun uiReactedToOccuredException() {
-        _occurredException.value = null
+    fun uiReactedToOccurredRepositoryException() {
+        repository.occurredExceptionHandled()
     }
 
     init {
@@ -31,15 +37,7 @@ class MovieInfoViewModel(private val imdbId: String) : ViewModel() {
 
     fun getMovieInfo() {
         viewModelScope.launch(Dispatchers.Default) {
-            try {
-                // database usage
-                val movieInfo = OmdbApi.service.getMovieByImdbId(imdbId)
-                _receivedMovieInfo.postValue(movieInfo.toDomainAllMovieInfo())
-            } catch (uhe: UnknownHostException) {
-                _occurredException.postValue(UnknownHostException("Connection error."))
-            } catch (e: Exception) {
-                _occurredException.postValue(Exception("An error occured."))
-            }
+            repository.getMovieInfo(imdbId)
         }
     }
 }

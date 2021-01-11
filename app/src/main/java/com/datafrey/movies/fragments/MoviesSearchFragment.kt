@@ -24,7 +24,7 @@ class MoviesSearchFragment : Fragment() {
     private lateinit var binding: FragmentMoviesSearchBinding
 
     private val viewModel: MoviesSearchViewModel by lazy {
-        ViewModelProvider(this, MoviesSearchViewModelFactory())
+        ViewModelProvider(this, MoviesSearchViewModelFactory(requireActivity().application))
             .get(MoviesSearchViewModel::class.java)
     }
 
@@ -49,11 +49,17 @@ class MoviesSearchFragment : Fragment() {
 
         binding.searchFloatingActionButton.setOnClickListener { onSearchButtonClick() }
 
-        viewModel.occurredException.observe(viewLifecycleOwner, Observer {
+        viewModel.occurredInputValidationException.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toast(it.message!!)
-                viewModel.clearFoundMoviesList()
-                viewModel.uiReactedToOccuredException()
+                viewModel.uiReactedToOccurredInputValidationException()
+            }
+        })
+
+        viewModel.occurredRepositoryException.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                toast(it.message!!)
+                viewModel.uiReactedToOccurredRepositoryException()
             }
         })
 

@@ -14,13 +14,16 @@ interface SavedMoviesDao {
     fun update(movie: DatabaseMovieInfo)
 
     @Query("SELECT * FROM movies WHERE imdbId = :imdbId")
-    fun get(imdbId: String): LiveData<DatabaseMovieInfo>
+    fun get(imdbId: String): DatabaseMovieInfo
 
     @Query("DELETE FROM movies WHERE imdbId = :imdbId")
     fun delete(imdbId: String)
 
     @Query("SELECT * FROM movies")
     fun getAllMovies(): LiveData<List<DatabaseMovieInfo>>
+
+    @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
+    fun isMovieSaved(imdbId: String): Boolean
 
     @Query("DELETE FROM movies")
     fun clear()

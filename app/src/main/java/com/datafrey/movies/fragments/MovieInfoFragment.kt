@@ -24,21 +24,23 @@ class MovieInfoFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val imdbId = MovieInfoFragmentArgs.fromBundle(requireArguments()).imdbId
 
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_movie_info, container, false)
 
-        viewModel = ViewModelProvider(this, MovieInfoViewModelFactory(imdbId))
-            .get(MovieInfoViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            MovieInfoViewModelFactory(requireActivity().application, imdbId)
+        ).get(MovieInfoViewModel::class.java)
 
         binding.let {
             it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 
-        viewModel.occurredException.observe(viewLifecycleOwner, Observer {
+        viewModel.occurredRepositoryException.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toast(it.message!!)
                 binding.progressBar.visibility = View.GONE
@@ -46,7 +48,7 @@ class MovieInfoFragment : Fragment() {
                     text = it.message
                     visibility = View.VISIBLE
                 }
-                viewModel.uiReactedToOccuredException()
+                viewModel.uiReactedToOccurredRepositoryException()
             }
         })
 

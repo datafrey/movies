@@ -171,7 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:visibility="@{viewModel.isMovieInfoReceived ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewModel.isMovieInfoReceived ? View.GONE : View.VISIBLE}">
 
             <ProgressBar
                 android:id="@+id/progressBar"
