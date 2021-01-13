@@ -17,7 +17,6 @@ import com.datafrey.movies.viewmodels.MovieInfoViewModel
 class MovieInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieInfoBinding
-
     private lateinit var viewModel: MovieInfoViewModel
 
     override fun onCreateView(
@@ -39,6 +38,8 @@ class MovieInfoFragment : Fragment() {
             it.viewModel = viewModel
             it.lifecycleOwner = this
         }
+
+        binding.saveDeleteButton.setOnClickListener { viewModel.changeMovieSavedStatus() }
 
         viewModel.occurredRepositoryException.observe(viewLifecycleOwner, Observer {
             it?.let {

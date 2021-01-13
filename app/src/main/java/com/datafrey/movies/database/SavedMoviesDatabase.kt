@@ -25,6 +25,9 @@ interface SavedMoviesDao {
     @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
     fun isMovieSaved(imdbId: String): Boolean
 
+    @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
+    fun isMovieSavedLiveData(imdbId: String): LiveData<Boolean>
+
     @Query("DELETE FROM movies")
     fun clear()
 }

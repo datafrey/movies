@@ -16,8 +16,7 @@ class MoviesSearchViewModel(app: Application) : AndroidViewModel(app) {
     val foundMoviesList: LiveData<List<DomainShortMovieInfo>>
         get() = _foundMoviesList
 
-    val isFoundMoviesListEmpty: LiveData<Boolean>
-        get() = Transformations.map(_foundMoviesList) { it.isEmpty() }
+    val isFoundMoviesListEmpty = Transformations.map(_foundMoviesList) { it.isEmpty() }
 
     private val _occurredInputValidationException = MutableLiveData<Exception?>()
     val occurredInputValidationException: LiveData<Exception?>
@@ -27,8 +26,7 @@ class MoviesSearchViewModel(app: Application) : AndroidViewModel(app) {
         _occurredInputValidationException.value = null
     }
 
-    val occurredRepositoryException: LiveData<Exception?>
-        get() = repository.occurredException
+    val occurredRepositoryException = repository.occurredException
 
     fun uiReactedToOccurredRepositoryException() {
         repository.occurredExceptionHandled()

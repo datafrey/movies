@@ -2,42 +2,54 @@ package com.datafrey.movies.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.datafrey.movies.database.getSavedMoviesDatabase
-import com.datafrey.movies.domain.DomainAllMovieInfo
 import com.datafrey.movies.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieInfoViewModel(
-    app: Application,
-    private val imdbId: String
-) : AndroidViewModel(app) {
+class MovieInfoViewModel(app: Application, imdbId: String) : AndroidViewModel(app) {
 
     private val repository = MoviesRepository(getSavedMoviesDatabase(getApplication()))
 
-    val receivedMovieInfo: LiveData<DomainAllMovieInfo>
-        get() = repository.requestedMovieInfo
+    val receivedMovieInfo = repository.requestedMovieInfo
+    val isMovieInfoReceived = Transformations.map(receivedMovieInfo) { it != null }
+    val isMovieSavedInDatabase = repository.getIsMovieSavedInDatabase(imdbId)
 
-    val isMovieInfoReceived: LiveData<Boolean>
-        get() = Transformations.map(receivedMovieInfo) { it != null }
-
-    val occurredRepositoryException: LiveData<Exception?>
-        get() = repository.occurredException
+    val occurredRepositoryException = repository.occurredException
 
     fun uiReactedToOccurredRepositoryException() {
         repository.occurredExceptionHandled()
     }
 
     init {
-        getMovieInfo()
+        loadMovieInfo(imdbId)
     }
 
-    fun getMovieInfo() {
+    private fun loadMovieInfo(imdbId: String) {
         viewModelScope.launch(Dispatchers.Default) {
             repository.getMovieInfo(imdbId)
+        }
+    }
+
+    fun changeMovieSavedStatus() {
+        if (isMovieSavedInDatabase.value!!) {
+            deleteMovieFromDatabase()
+        } else {
+            saveMovieInDatabase()
+        }
+    }
+
+    private fun saveMovieInDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveMovieInDatabase(receivedMovieInfo.value!!)
+        }
+    }
+
+    private fun deleteMovieFromDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteMovieFromDatabase(receivedMovieInfo.value!!.imdbId)
         }
     }
 }

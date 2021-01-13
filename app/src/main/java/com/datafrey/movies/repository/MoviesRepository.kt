@@ -46,6 +46,8 @@ class MoviesRepository(database: SavedMoviesDatabase) {
             it.toListOfDomainShortMovieInfos()
         }
 
+    fun getIsMovieSavedInDatabase(imdbId: String) = savedMoviesDao.isMovieSavedLiveData(imdbId)
+
     suspend fun clearMoviesDatabase() {
         savedMoviesDao.clear()
     }
