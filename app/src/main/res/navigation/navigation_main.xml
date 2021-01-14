@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_movies_search">
         <action
             android:id="@+id/action_moviesSearchFragment_to_movieInfoFragment"
-            app:destination="@id/movieInfoFragment" />
+            app:destination="@id/movieInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_moviesSearchFragment_to_savedMoviesFragment"
-            app:destination="@id/savedMoviesFragment" />
+            app:destination="@id/savedMoviesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/movieInfoFragment"
@@ -33,6 +41,10 @@
         tools:layout="@layout/fragment_saved_movies" >
         <action
             android:id="@+id/action_savedMoviesFragment_to_movieInfoFragment"
-            app:destination="@id/movieInfoFragment" />
+            app:destination="@id/movieInfoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

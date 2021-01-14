@@ -163,17 +163,23 @@
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/saveDeleteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="30dp"
-                        app:movieSavedStatus="@{viewModel.isMovieSavedInDatabase}" />
+                    <FrameLayout
+                        android:id="@+id/freeSpaceForComfortableReading"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp" />
 
                 </LinearLayout>
             </RelativeLayout>
         </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            app:movieSavedStatus="@{viewModel.isMovieSavedInDatabase}" />
 
         <RelativeLayout
             android:id="@+id/placeholderView"

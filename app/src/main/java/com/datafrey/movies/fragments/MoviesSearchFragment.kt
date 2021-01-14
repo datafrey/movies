@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.datafrey.movies.util.toast
 import com.datafrey.movies.viewmodelfactories.MoviesSearchViewModelFactory
 import com.datafrey.movies.viewmodels.MoviesSearchViewModel
 import kotlinx.android.synthetic.main.layout_search.view.*
+import kotlin.system.exitProcess
 
 class MoviesSearchFragment : Fragment() {
 
@@ -35,8 +37,10 @@ class MoviesSearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_movies_search, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_movies_search, container, false
+        )
 
         binding.let {
             it.viewModel = viewModel
@@ -64,6 +68,8 @@ class MoviesSearchFragment : Fragment() {
                 viewModel.uiReactedToOccurredRepositoryException()
             }
         })
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) { onBackPressed() }
 
         return binding.root
     }
@@ -93,6 +99,18 @@ class MoviesSearchFragment : Fragment() {
 
     private fun onSavedMoviesButtonClick() {
         binding.root.findNavController().navigate(
-            R.id.action_moviesSearchFragment_to_savedMoviesFragment)
+            R.id.action_moviesSearchFragment_to_savedMoviesFragment
+        )
+    }
+
+    private fun onBackPressed() {
+        AlertDialog.Builder(requireActivity())
+            .setMessage("Are you sure you want to close the application?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                requireActivity().finish()
+                exitProcess(0)
+            }
+            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+            .show()
     }
 }

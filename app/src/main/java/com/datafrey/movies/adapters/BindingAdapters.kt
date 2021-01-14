@@ -1,5 +1,6 @@
 package com.datafrey.movies.adapters
 
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,9 +22,9 @@ fun bindListOfMoviesToRecyclerView(
 }
 
 @BindingAdapter("app:movieSavedStatus")
-fun setMovieSavedStatusImage(imageView: ImageView, isSaved: Boolean?) {
+fun setMovieSavedStatusImage(imageButton: ImageButton, isSaved: Boolean?) {
     isSaved?.let {
-        imageView.setImageResource(
+        imageButton.setImageResource(
             if (isSaved) R.drawable.ic_white_delete_24
             else R.drawable.ic_white_save_24
         )

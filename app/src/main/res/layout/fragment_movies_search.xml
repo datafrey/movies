@@ -19,7 +19,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/foundMoviesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:listData="@{viewModel.foundMoviesList}"
             app:spanCount="@integer/column_count"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="Tap 'Search' button to search movies" />
+                android:text="Search list is empty" />
 
         </RelativeLayout>
 
@@ -53,6 +53,17 @@
             android:clickable="true"
             android:src="@drawable/ic_white_save_24" />
 
+        <TextView
+            android:id="@+id/savedMoviesHintTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/savedMoviesFloatingActionButton"
+            android:layout_alignTop="@+id/savedMoviesFloatingActionButton"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Tap to see saved movies"
+            android:visibility="@{viewModel.isFoundMoviesListEmpty ? View.VISIBLE : View.GONE}"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/searchFloatingActionButton"
             android:layout_width="wrap_content"
@@ -63,6 +74,17 @@
             android:layout_marginBottom="30dp"
             android:clickable="true"
             android:src="@drawable/ic_white_search_24" />
+
+        <TextView
+            android:id="@+id/searchMoviesHintTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/searchFloatingActionButton"
+            android:layout_alignTop="@+id/searchFloatingActionButton"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Tap to search movies"
+            android:visibility="@{viewModel.isFoundMoviesListEmpty ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>
