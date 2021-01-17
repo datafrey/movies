@@ -21,7 +21,6 @@ import com.datafrey.movies.util.toast
 import com.datafrey.movies.viewmodelfactories.MoviesSearchViewModelFactory
 import com.datafrey.movies.viewmodels.MoviesSearchViewModel
 import kotlinx.android.synthetic.main.layout_search.view.*
-import kotlin.system.exitProcess
 
 class MoviesSearchFragment : Fragment() {
 
@@ -91,7 +90,7 @@ class MoviesSearchFragment : Fragment() {
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
+                dialog.cancel()
             }
             .create()
             .show()
@@ -108,9 +107,8 @@ class MoviesSearchFragment : Fragment() {
             .setMessage("Are you sure you want to close the application?")
             .setPositiveButton("Yes") { dialog, _ ->
                 requireActivity().finish()
-                exitProcess(0)
             }
-            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 }

@@ -62,7 +62,7 @@ class SavedMoviesFragment : Fragment() {
                     viewModel.clearSavedMovies()
                     dialog.dismiss()
                 }
-                .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
                 .show()
         } else {
             toast("You don't have any saved movies.")
