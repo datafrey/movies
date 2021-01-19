@@ -8,32 +8,32 @@ import androidx.room.*
 interface SavedMoviesDao {
 
     @Insert
-    fun insert(movie: DatabaseMovieInfo)
+    suspend fun insert(movie: DatabaseMovieInfo)
 
     @Update
-    fun update(movie: DatabaseMovieInfo)
+    suspend fun update(movie: DatabaseMovieInfo)
 
     @Query("SELECT * FROM movies WHERE imdbId = :imdbId")
-    fun get(imdbId: String): DatabaseMovieInfo
+    suspend fun get(imdbId: String): DatabaseMovieInfo
 
     @Query("DELETE FROM movies WHERE imdbId = :imdbId")
-    fun delete(imdbId: String)
+    suspend fun delete(imdbId: String)
 
     @Query("SELECT * FROM movies")
     fun getAllMovies(): LiveData<List<DatabaseMovieInfo>>
 
     @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
-    fun isMovieSaved(imdbId: String): Boolean
+    suspend fun isMovieSaved(imdbId: String): Boolean
 
     @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
     fun isMovieSavedLiveData(imdbId: String): LiveData<Boolean>
 
     @Query("DELETE FROM movies")
-    fun clear()
+    suspend fun clear()
 }
 
 @Database(entities = [DatabaseMovieInfo::class], version = 1)
-abstract class SavedMoviesDatabase: RoomDatabase() {
+abstract class SavedMoviesDatabase : RoomDatabase() {
     abstract val savedMoviesDao: SavedMoviesDao
 }
 

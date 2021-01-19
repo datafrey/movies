@@ -18,7 +18,7 @@ class SavedMoviesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun clearSavedMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.clearSavedMoviesDatabase()
+            repository.clearSavedMovies()
         }
     }
 }
