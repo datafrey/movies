@@ -74,8 +74,10 @@ class MoviesSearchFragment : Fragment() {
     }
 
     private fun showAllMovieInfo(movieInfo: DomainShortMovieInfo) {
-        this.findNavController().navigate(MoviesSearchFragmentDirections
-                .actionMoviesSearchFragmentToMovieInfoFragment(movieInfo.imdbId))
+        this.findNavController().navigate(
+            MoviesSearchFragmentDirections
+                .actionMoviesSearchFragmentToMovieInfoFragment(movieInfo.imdbId)
+        )
     }
 
     private fun onSearchButtonClick() {

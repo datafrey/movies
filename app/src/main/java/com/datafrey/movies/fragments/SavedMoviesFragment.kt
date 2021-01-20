@@ -31,8 +31,10 @@ class SavedMoviesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_saved_movies, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_saved_movies, container, false
+        )
 
         binding.let {
             it.viewModel = viewModel
@@ -50,8 +52,10 @@ class SavedMoviesFragment : Fragment() {
     }
 
     private fun showAllMovieInfo(movieInfo: DomainShortMovieInfo) {
-        this.findNavController().navigate(SavedMoviesFragmentDirections
-                .actionSavedMoviesFragmentToMovieInfoFragment(movieInfo.imdbId))
+        this.findNavController().navigate(
+            SavedMoviesFragmentDirections
+                .actionSavedMoviesFragmentToMovieInfoFragment(movieInfo.imdbId)
+        )
     }
 
     private fun onClearSavedMoviesButtonClick() {
