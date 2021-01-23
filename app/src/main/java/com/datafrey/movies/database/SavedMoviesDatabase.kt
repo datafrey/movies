@@ -10,6 +10,9 @@ interface SavedMoviesDao {
     @Insert
     suspend fun insert(movie: DatabaseMovieInfo)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(movies: List<DatabaseMovieInfo>)
+
     @Update
     suspend fun update(movie: DatabaseMovieInfo)
 
@@ -20,7 +23,10 @@ interface SavedMoviesDao {
     suspend fun delete(imdbId: String)
 
     @Query("SELECT * FROM movies")
-    fun getAllMovies(): LiveData<List<DatabaseMovieInfo>>
+    suspend fun getAllMovies(): List<DatabaseMovieInfo>
+
+    @Query("SELECT * FROM movies")
+    fun getAllMoviesLiveData(): LiveData<List<DatabaseMovieInfo>>
 
     @Query("SELECT COUNT(*) != 0 FROM movies WHERE imdbId = :imdbId")
     suspend fun isMovieSaved(imdbId: String): Boolean

@@ -33,16 +33,12 @@ class MoviesRepository(database: SavedMoviesDatabase) {
         savedMoviesDao.insert(movie.toDatabaseMovieInfo())
     }
 
-    suspend fun updateMovieInDatabase(movie: DomainAllMovieInfo) {
-        savedMoviesDao.update(movie.toDatabaseMovieInfo())
-    }
-
     suspend fun deleteMovieFromDatabase(imdbId: String) {
         savedMoviesDao.delete(imdbId)
     }
 
     fun getAllSavedMoviesShortMovieInfos() =
-        Transformations.map(savedMoviesDao.getAllMovies()) {
+        Transformations.map(savedMoviesDao.getAllMoviesLiveData()) {
             it.toListOfDomainShortMovieInfos()
         }
 
@@ -96,5 +92,13 @@ class MoviesRepository(database: SavedMoviesDatabase) {
         } catch (e: Exception) {
             _occurredException.postValue(Exception("An error occured."))
         }
+    }
+
+    suspend fun refreshSavedMovies() {
+        val savedMovies = savedMoviesDao.getAllMovies()
+        val freshMovieInfos = savedMovies.map { movieInfo ->
+            OmdbApi.service.getMovieByImdbId(movieInfo.imdbId).toDatabaseMovieInfo()
+        }
+        savedMoviesDao.insertAll(freshMovieInfos)
     }
 }

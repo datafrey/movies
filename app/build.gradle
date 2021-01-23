@@ -69,4 +69,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$version_room"
 
     implementation "androidx.multidex:multidex:$version_multidex"
+
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
 }
